@@ -22,7 +22,7 @@ class ProductsController {
                 return res.json(products);
             }
             catch (e) {
-                console.log(e);
+                next(e);
             }
         });
     }
