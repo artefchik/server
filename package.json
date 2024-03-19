@@ -1,0 +1,55 @@
+{
+  "name": "tech-shop-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "start:ts": "npm run build && nodemon index.ts",
+    "build": "npm run clean && npm run tsc && npm run copy-assets",
+    "copy-assets": "ts-node tools/copyAssets",
+    "tsc": "npx tsc",
+    "clean": "rimraf build/*",
+    "add-build": "git add build",
+    "dev": "node ./build/index.js",
+    "start": "node build/index.js"
+  },
+  "pre-commit": [
+    "build",
+    "add-build"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cookie-parser": "^1.4.7",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/express-fileupload": "^1.4.4",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^20.3.3",
+    "@types/shelljs": "^0.8.15",
+    "@types/uuid": "^9.0.8",
+    "multer": "^1.4.5-lts.1",
+    "pre-commit": "^1.2.2",
+    "rimraf": "^5.0.5",
+    "shelljs": "^0.8.5",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.3",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.4.0",
+    "mongoose": "^8.2.0",
+    "uuid": "^9.0.1"
+  }
+}
