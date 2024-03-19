@@ -75,13 +75,13 @@ class BasketService {
     }
     updateCountProduct(basketId, productId, count) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (count === 0) {
+                const product = yield basketProduct_model_1.BasketProductModel.findOneAndDelete({ $and: [{ basketId }, { productId }] });
+                return product;
+            }
             const updatedProduct = yield basketProduct_model_1.BasketProductModel.findOneAndUpdate({ $and: [{ basketId }, { productId }] }, { $set: { count: count } }, { new: true });
             if (!updatedProduct) {
                 throw ApiError_1.default.badRequest('Count don\'t updated');
-            }
-            if (count === 0) {
-                const product = yield basketProduct_model_1.BasketProductModel.findByIdAndDelete(productId);
-                return product;
             }
             return updatedProduct;
         });

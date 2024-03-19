@@ -10,4 +10,5 @@ const router = new express_1.Router();
 router.post('/:id', favorite_controller_1.default.toggleFavorite);
 router.get('/init/:id', favorite_controller_1.default.getFavoriteStorage);
 router.get('/:id', favorite_controller_1.default.getFavorites);
+router.get('/products/:id', favorite_controller_1.default.getFavoritesWithProducts);
 exports.default = router;

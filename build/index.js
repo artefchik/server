@@ -25,7 +25,7 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8000;
 const DB_URL = process.env.DB_URL ? process.env.DB_URL : '';
-const CLIENT_URL = process.env.CLIENT_URL ? process.env.CLIENT_URL : '';
+const CLIENT_URL = process.env.CLIENT_URL ? process.env.CLIENT_URL : 'http://localhost:3000';
 const corsOptions = {
     origin: CLIENT_URL,
     credentials: true,
