@@ -22,7 +22,7 @@ class TokenService {
             expiresIn: '15m',
         });
         const refreshToken = jsonwebtoken_1.default.sign(payload, JWT_REFRESH_KEY, {
-            expiresIn: '1h',
+            expiresIn: '20d',
         });
         return {
             accessToken,
