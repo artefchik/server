@@ -15,6 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_service_1 = __importDefault(require("./user.service"));
 const ApiError_1 = __importDefault(require("../exceptions/ApiError"));
 const express_validator_1 = require("express-validator");
+const storage_1 = require("../storage/storage");
+const user_model_1 = require("./user.model");
+const mongodb_1 = require("mongodb");
+const user_dto_1 = require("./user.dto");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const CLIENT_URL = process.env.CLIENT_URL ? process.env.CLIENT_URL : 'http://localhost:3000';
 class UserController {
     registration(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -106,8 +113,55 @@ class UserController {
     changeAvatar(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(req.file);
-                return res.json(req.file);
+                // @ts-ignore
+                const user = req.body.user;
+                // @ts-ignore
+                let buffer = req.files[0].buffer; // Буфер загруженного файла
+                console.log(req.files);
+                if (!buffer) {
+                    return next(ApiError_1.default.badRequest('Image not found'));
+                }
+                console.log(storage_1.s3);
+                let upload = yield storage_1.s3.Upload({
+                    buffer: buffer
+                }, '/avatars/');
+                if (!upload) {
+                    return next(ApiError_1.default.badRequest('The avatar has not been uploaded.Try again'));
+                }
+                // @ts-ignore
+                const updatedProfile = yield user_model_1.UserModel.findOneAndUpdate({ _id: new mongodb_1.ObjectId(user.id) }, 
+                // @ts-ignore
+                { $set: { avatar: upload.Location } }, { new: true });
+                const userDto = new user_dto_1.UserDto(updatedProfile);
+                // await s3.Upload({buffer}, '/avatars/');
+                return res.json(userDto);
+            }
+            catch (e) {
+                next(e);
+            }
+        });
+    }
+    activateEmail(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { link } = req.params;
+                if (!link) {
+                    return next(ApiError_1.default.badRequest('Not activated'));
+                }
+                yield user_service_1.default.activate(link);
+                return res.redirect(CLIENT_URL);
+            }
+            catch (e) {
+                next(e);
+            }
+        });
+    }
+    confirmEmail(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                yield user_service_1.default.confirmEmail(id);
+                res.status(200).send('good');
             }
             catch (e) {
                 next(e);

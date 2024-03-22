@@ -5,6 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.s3 = void 0;
 const easy_yandex_s3_1 = __importDefault(require("easy-yandex-s3"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const ACCESS_KEY_BACKET = process.env.ACCESS_KEY_BACKET ? process.env.ACCESS_KEY_BACKET : '';
 const SECRET_ACCESS_KEY_BACKET = process.env.SECRET_ACCESS_KEY_BACKET ? process.env.SECRET_ACCESS_KEY_BACKET : '';
 const NAME_BACKET = process.env.NAME_BACKET ? process.env.NAME_BACKET : '';

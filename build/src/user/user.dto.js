@@ -9,6 +9,7 @@ class UserDto {
         this.username = data.username;
         this.roles = data.roles;
         this.avatar = data.avatar;
+        this.activatedLinkEmail = data.activatedLinkEmail;
     }
 }
 exports.UserDto = UserDto;
