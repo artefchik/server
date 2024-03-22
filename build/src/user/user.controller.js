@@ -106,5 +106,50 @@ class UserController {
             }
         });
     }
+    changeAvatar(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // @ts-ignore
+                const userId = req.body.user.id;
+                // @ts-ignore
+                const file = req.files[0];
+                if (!file) {
+                    return next(ApiError_1.default.badRequest('The avatar has not been uploaded.Try again'));
+                }
+                const user = yield user_service_1.default.changeAvatar(userId, file);
+                return res.json(user);
+            }
+            catch (e) {
+                next(e);
+            }
+        });
+    }
+    activateEmail(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { link } = req.params;
+                if (!link) {
+                    return next(ApiError_1.default.badRequest('Not activated'));
+                }
+                yield user_service_1.default.activate(link);
+                return res.redirect(CLIENT_URL);
+            }
+            catch (e) {
+                next(e);
+            }
+        });
+    }
+    confirmEmail(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                yield user_service_1.default.confirmEmail(id);
+                res.status(200).send('good');
+            }
+            catch (e) {
+                next(e);
+            }
+        });
+    }
 }
 exports.default = new UserController();

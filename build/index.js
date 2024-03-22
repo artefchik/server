@@ -20,6 +20,7 @@ const routes_1 = __importDefault(require("./src/routes"));
 const path_1 = __importDefault(require("path"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const multer_1 = __importDefault(require("multer"));
 const error_middleware_1 = __importDefault(require("./src/middleware/error.middleware"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8000;
@@ -32,7 +33,7 @@ const corsOptions = {
 app.use(express_1.default.json());
 app.use((0, cors_1.default)(corsOptions));
 app.use((0, cookie_parser_1.default)());
-// app.use(multer().any());
+app.use((0, multer_1.default)().any());
 app.use('', routes_1.default);
 app.use(error_middleware_1.default);
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
