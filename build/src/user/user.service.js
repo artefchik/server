@@ -134,6 +134,7 @@ class UserService {
                 throw ApiError_1.default.badRequest('User not found');
             }
             yield mail_service_1.default.sendMail(user.email, `${SERVER_URL}/activate/${user.activatedLinkEmail}`);
+            return;
         });
     }
 }

@@ -115,8 +115,12 @@ class UserController {
             try {
                 // @ts-ignore
                 const user = req.body.user;
+                if (!req.files) {
+                    return next(ApiError_1.default.badRequest('The avatar has not been uploaded.Try again'));
+                }
                 // @ts-ignore
-                let buffer = req.files[0].buffer; // Буфер загруженного файла
+                const uploadedFile = req.files[0];
+                let buffer = uploadedFile.buffer;
                 console.log(req.files);
                 if (!buffer) {
                     return next(ApiError_1.default.badRequest('Image not found'));
@@ -133,7 +137,6 @@ class UserController {
                 // @ts-ignore
                 { $set: { avatar: upload.Location } }, { new: true });
                 const userDto = new user_dto_1.UserDto(updatedProfile);
-                // await s3.Upload({buffer}, '/avatars/');
                 return res.json(userDto);
             }
             catch (e) {
