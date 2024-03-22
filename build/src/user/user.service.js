@@ -21,7 +21,7 @@ const basket_service_1 = __importDefault(require("../basket/basket.service"));
 const favorite_service_1 = __importDefault(require("../favorite/favorite.service"));
 const ApiError_1 = __importDefault(require("../exceptions/ApiError"));
 const uuid_1 = require("uuid");
-const mail_service_1 = __importDefault(require("../mail/mail.service"));
+// import MailService from "../mail/mail.service";
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const SERVER_URL = process.env.SERVER_URL ? process.env.SERVER_URL : 'http://localhost:8000';
@@ -115,26 +115,6 @@ class UserService {
                 throw ApiError_1.default.badRequest('User not found');
             }
             return new user_dto_1.UserDto(user);
-        });
-    }
-    activate(activatedLinkEmail) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const user = yield user_model_1.UserModel.findOne({ activatedLinkEmail });
-            if (!user) {
-                throw ApiError_1.default.badRequest('User not found');
-            }
-            user.isActivatedEmail = true;
-            yield user.save();
-        });
-    }
-    confirmEmail(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const user = yield user_model_1.UserModel.findById(id);
-            if (!user) {
-                throw ApiError_1.default.badRequest('User not found');
-            }
-            yield mail_service_1.default.sendMail(user.email, `${SERVER_URL}/activate/${user.activatedLinkEmail}`);
-            return;
         });
     }
 }

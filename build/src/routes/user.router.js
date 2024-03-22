@@ -16,6 +16,6 @@ router.post('/login', user_controller_1.default.login);
 router.post('/logout', user_controller_1.default.logout);
 router.get('/refresh', user_controller_1.default.refresh);
 // router.post('/upload',authMiddleware ,UserController.changeAvatar);
-router.get('/activate/:link', user_controller_1.default.activateEmail);
-router.get('/confirm/:id', user_controller_1.default.confirmEmail);
+// router.get('/activate/:link' ,UserController.activateEmail);
+// router.get('/confirm/:id' ,UserController.confirmEmail);
 exports.default = router;
